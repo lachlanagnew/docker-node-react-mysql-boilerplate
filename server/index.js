@@ -29,21 +29,9 @@ app.post("/users/search", async (req, res) => {
         query: {
           bool: {
             should: [
-              {
-                match: {
-                  username: query
-                }
-              },
-              {
-                wildcard: {
-                  username: `*${query}*`
-                }
-              },
-              {
-                fuzzy: {
-                  username: query
-                }
-              }
+              { match: { username: query } },
+              { wildcard: { username: `*${query}*` } },
+              { fuzzy: { username: { value: query, fuzziness: 5 } } }
             ],
             minimum_should_match: 1
           }
